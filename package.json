@@ -1,0 +1,12 @@
+{
+  "name": "wsd",
+  "version": "1.0.0",
+  "bin": {
+    "wsd": "wsd.js"
+  },
+  "author": "takasmiley <takasmiley@live.jp>",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.19.0"
+  }
+}
