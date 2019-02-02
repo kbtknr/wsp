@@ -11,8 +11,17 @@ program
   .command('start <site-config>')
   .description('start site')
   .option('-D, --debug', 'Debug mode')
+  .option('-t, --temp <value>', 'Temporary directory')
   .action(function(siteConfig, options) {
-    start(siteConfig).catch((err) => {
+    const {
+      debug,
+      temp
+    } = options;
+    start({
+      siteConfigPath: siteConfig,
+      tmpDir: temp,
+      isDebug: debug
+    }).catch((err) => {
       if (err) {
         console.error(err);
       }
@@ -23,8 +32,18 @@ program
   .command('build <site-config>')
   .description('build site')
   .option('-d, --destination <value>', 'Destination directory')
+  .option('-t, --temp <value>', 'Temporary directory')
   .action(function(siteConfig, options) {
-    build(siteConfig).catch((err) => {
+    const {
+      destination,
+      temp,
+    } = options;
+    build({
+      siteConfigPath: siteConfig,
+      tmpDir: temp,
+      outDir: destination,
+      isDebug: true
+    }).catch((err) => {
       if (err) {
         console.error(err);
       }
