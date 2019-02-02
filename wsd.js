@@ -3,10 +3,6 @@
 const program = require('commander');
 const start = require('./lib/start');
 const build = require('./lib/build');
-// const fs = require('fs-extra')
-// const path = require('path');
-// const globby = require('globby');
-// const { createClientConfig, createServerConfig } = require('./webpack');
 
 program
   .version('1.0.0');
