@@ -9,6 +9,5 @@
   "dependencies": {
     "commander": "^2.19.0",
     "fs-extra": "^7.0.1",
-    "globby": "^9.0.0"
   }
 }
