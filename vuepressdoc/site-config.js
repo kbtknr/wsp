@@ -12,6 +12,7 @@ module.exports = {
   },
 
   build: {
-    // inlineLimit: 8 * 1024
+    inlineLimit: 8 * 1024,
+    postcss: {}
   }
 };
