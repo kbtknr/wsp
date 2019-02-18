@@ -32,7 +32,8 @@
     "vue-server-renderer": "^2.5.22",
     "vue-template-compiler": "^2.6.6",
     "webpack": "^4.29.0",
-    "webpack-chain": "^5.2.0"
+    "webpack-chain": "^5.2.0",
+    "webpack-dev-middleware": "^3.5.2"
   },
   "devDependencies": {
     "prettier": "1.16.3"
