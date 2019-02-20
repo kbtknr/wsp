@@ -2,7 +2,7 @@
   <mp-master-page1>
     <h1>Page1.vue</h1>
     <other-com />
-    <router-link to="page2.html">page2</router-link>
+    <router-link to="page2">page2</router-link>
   </mp-master-page1>
 </template>
 
