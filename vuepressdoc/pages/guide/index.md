@@ -1,3 +1,6 @@
+---
+og: false
+---
 <style scoped>
   .strong {
     color: red;

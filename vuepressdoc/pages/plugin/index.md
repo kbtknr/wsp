@@ -1,6 +1,9 @@
 ---
 title: プラグインタイトル
 description: プラグインの説明
+og:
+  title: og plugin title
+  description: og desc of plugin
 master-page: master-page2
 ---
 <style scoped>
