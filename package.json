@@ -4,6 +4,9 @@
   "bin": {
     "wsd": "wsd.js"
   },
+  "scripts": {
+    "fmt": "prettier --config 'prettier.config.js' --write {{app,lib}/**/*.{js,vue,html},wsd.js}"
+  },
   "author": "takasmiley <takasmiley@live.jp>",
   "license": "MIT",
   "dependencies": {

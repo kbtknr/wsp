@@ -6,8 +6,9 @@ export default {
     if (headData && this.$ssrContext) {
       const { title, description } = headData;
       this.$ssrContext.headData = {
-        title, description
+        title,
+        description,
       };
     }
-  }
+  },
 };

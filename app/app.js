@@ -12,9 +12,7 @@ export function createApp() {
 
   const app = new Vue({
     router,
-    render: (h) => h('div', { attrs: { id: 'app' } }, [
-      h('router-view')
-    ])
+    render: h => h('div', { attrs: { id: 'app' } }, [h('router-view')]),
   });
   return { app, router };
 }

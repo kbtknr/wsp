@@ -29,5 +29,5 @@ export default {
         setMetaTag('description', headData.description);
       }
     }
-  }
+  },
 };
