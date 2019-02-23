@@ -1,7 +1,7 @@
-import { getMeta } from './meta-mixin';
+import { getHeadData } from './head-mixin';
 
 function setMetaTag(name, value) {
-  const ms = document.head.querySelectorAll('meta[name="${name}"]');
+  const ms = document.head.querySelectorAll(`meta[name="${name}"]`);
   if (0 < ms.length) {
     for (let i = 0; i < ms.length; i++) {
       if (i == 0) {
@@ -20,13 +20,13 @@ function setMetaTag(name, value) {
 
 export default {
   mounted() {
-    const meta = getMeta(this);
-    if (meta) {
-      if (meta.title) {
-        document.title = meta.title;
+    const headData = getHeadData(this);
+    if (headData) {
+      if (headData.title) {
+        document.title = headData.title;
       }
-      if (meta.description) {
-        setMetaTag('description', meta.description);
+      if (headData.description) {
+        setMetaTag('description', headData.description);
       }
     }
   }

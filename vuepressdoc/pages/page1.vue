@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  meta: {
+  headData: {
     title: 'page1',
     description: 'desc of page1'
   },

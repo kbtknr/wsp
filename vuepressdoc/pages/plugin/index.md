@@ -1,4 +1,6 @@
 ---
+title: プラグインタイトル
+description: プラグインの説明
 master-page: master-page2
 ---
 <style scoped>

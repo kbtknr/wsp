@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import { createRouter } from './router.js';
-import metaMixin from '@meta-mixin';
+import headMixin from '@head-mixin';
 import Page from './Page.vue';
 
 Vue.component('page', Page);
 
-Vue.mixin(metaMixin);
+Vue.mixin(headMixin);
 
 export function createApp() {
   const router = createRouter();
