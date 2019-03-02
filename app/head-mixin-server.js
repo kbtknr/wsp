@@ -1,26 +1,13 @@
-import { getHeadData } from './head-mixin';
+import { getHeadData, eachOpenGraph } from './head-mixin';
 import escape from 'escape-html';
 
 function renderOpenGraph(headData) {
-  let title;
-  let description;
-
-  if (headData.og === false) {
-    // noop
-  } else if (headData.og == null || typeof headData.og !== 'object') {
-    ({ title, description } = headData);
-  } else {
-    ({ title, description } = headData.og);
-  }
-
   const tags = [];
-  if (title) {
-    tags.push(`<meta property="og:title" content="${escape(title)}" />`);
-  }
-  if (description) {
-    tags.push(`<meta property="og:description" content="${escape(description)}" />`);
-  }
-
+  eachOpenGraph(headData, (property, value) => {
+    if (value) {
+      tags.push(`<meta property="${property}" content="${escape(value)}" />`);
+    }
+  });
   return tags.join('');
 }
 

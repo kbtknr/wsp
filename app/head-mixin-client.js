@@ -1,4 +1,4 @@
-import { getHeadData } from './head-mixin';
+import { getHeadData, eachOpenGraph } from './head-mixin';
 
 function setMetaTag(name, value) {
   const ms = document.head.querySelectorAll(`meta[name="${name}"]`);
@@ -35,19 +35,9 @@ function setOpenGraph(property, value) {
   }
 }
 function hydrateOpenGraph(headData) {
-  let title;
-  let description;
-
-  if (headData.og === false) {
-    // noop
-  } else if (headData.og == null || typeof headData.og !== 'object') {
-    ({ title, description } = headData);
-  } else {
-    ({ title, description } = headData.og);
-  }
-
-  setOpenGraph('og:title', title);
-  setOpenGraph('og:description', description);
+  eachOpenGraph(headData, (property, value) => {
+    setOpenGraph(property, value);
+  });
 }
 
 export default {
