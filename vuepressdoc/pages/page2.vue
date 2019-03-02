@@ -10,7 +10,14 @@
 export default {
   headData: {
     title: 'page2',
-    description: 'desc of page2'
+    description: 'desc of page2',
+    og: {
+      title: 'page2 for og',
+      description: 'page2 desc for og',
+      type: 'website',
+      url: 'http://vuepressdoc/page2',
+      siteName: 'vuepressdoc site'
+    }
   },
   components: {
     'other-com': require('../components/OtherComponent.vue').default
