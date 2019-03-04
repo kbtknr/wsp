@@ -1,6 +1,6 @@
-import { getHeadData, eachOpenGraph } from './head-mixin';
+import { getHeadData, eachOpenGraph, getViewport } from './head-mixin';
 
-function setMetaTag(name, value) {
+function hydrateMetaTag(name, value) {
   const ms = document.head.querySelectorAll(`meta[name="${name}"]`);
   if (0 < ms.length) {
     for (let i = 0; i < ms.length; i++) {
@@ -48,8 +48,8 @@ export default {
     }
 
     document.title = headData.title || '';
-    setMetaTag('description', headData.description);
-
+    hydrateMetaTag('description', headData.description);
+    hydrateMetaTag('viewport', getViewport(viewport));
     hydrateOpenGraph(headData);
   },
 };

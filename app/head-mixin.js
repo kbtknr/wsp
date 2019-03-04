@@ -62,3 +62,28 @@ export function eachOpenGraph(headData, cb) {
     cb('og:video:height', video.height);
   }
 }
+
+export function getViewport(headData) {
+  const viewport = headData.viewport;
+  if (viewport == null || typeof viewport !== 'object') {
+    return viewport;
+  } else {
+    const ary = [];
+    if (viewport.width != null) {
+      ary.push(`width=${viewport.width}`);
+    }
+    if (viewport.height != null) {
+      ary.push(`height=${viewport.height}`);
+    }
+    if (viewport.initialScale != null) {
+      ary.push(`initial_scale=${viewport.initialScale}`);
+    }
+    if (viewport.maximumScale != null) {
+      ary.push(`maximum_scale=${viewport.maximumScale}`);
+    }
+    if (viewport.minimumScale != null) {
+      ary.push(`minimum_scale=${viewport.minimumScale}`);
+    }
+    return ary.length == 0 ? null : ary.join(',');
+  }
+}

@@ -1,3 +1,6 @@
+---
+viewport: width=320px
+---
 # Markdown Extensions
 
 ## Header Anchors

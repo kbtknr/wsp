@@ -1,14 +1,17 @@
-import { getHeadData, eachOpenGraph } from './head-mixin';
+import { getHeadData, eachOpenGraph, getViewport } from './head-mixin';
 import escape from 'escape-html';
 
-function renderOpenGraph(headData) {
-  const tags = [];
+function renderMetaTag(tags, name, value) {
+  if (name != null && value != null) {
+    tags.push(`<meta name="${name}" content="${escape(value)}" />`);
+  }
+}
+function renderOpenGraph(tags, headData) {
   eachOpenGraph(headData, (property, value) => {
     if (value) {
       tags.push(`<meta property="${property}" content="${escape(value)}" />`);
     }
   });
-  return tags.join('');
 }
 
 export default {
@@ -18,12 +21,14 @@ export default {
       return;
     }
 
-    const ogTags = renderOpenGraph(headData);
+    const managedTags = [];
+    renderMetaTag(managedTags, 'description', headData.description);
+    renderMetaTag(managedTags, 'viewport', getViewport(headData));
+    renderOpenGraph(managedTags, headData);
 
     this.$ssrContext.headData = {
       title: headData.title,
-      description: headData.description,
-      ogTags,
+      managedTags: managedTags.join(''),
     };
   },
 };
