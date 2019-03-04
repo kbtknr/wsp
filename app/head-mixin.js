@@ -8,7 +8,7 @@ export function eachOpenGraph(headData, cb) {
     title: headData.title,
     description: headData.description
   };
-  const { title, type, url, description, siteName, image, audio, video } =
+  const { title, type, url, description, siteName, locale, image, audio, video } =
     headData.og === false
       ? {}
       : headData.og == null || typeof headData.og !== 'object'
@@ -20,6 +20,7 @@ export function eachOpenGraph(headData, cb) {
   cb('og:url', url);
   cb('og:description', description);
   cb('og:site_name', siteName);
+  cb('og:locale', locale);
 
   if (image == null || typeof image !== 'object') {
     cb('og:image', image);
