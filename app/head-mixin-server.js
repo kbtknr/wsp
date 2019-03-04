@@ -1,15 +1,36 @@
 import { getHeadData, eachOpenGraph, getViewport } from './head-mixin';
 import escape from 'escape-html';
 
-function renderMetaTag(tags, name, value) {
-  if (name != null && value != null) {
-    tags.push(`<meta name="${name}" content="${escape(value)}" />`);
+function renderMetaTag(tags, { name, property, content }) {
+  if (content == null) {
+    return;
   }
+
+  let keyPart = null;
+  if (name != null) {
+    keyPart = `name="${name}"`;
+  }
+  if (property) {
+    keyPart = `property="${property}"`;
+  }
+  if (keyPart == null) {
+    return;
+  }
+
+  let valuePart = '';
+  if (content != null) {
+    valuePart = `content="${escape(content)}"`;
+  }
+
+  tags.push(`<meta ${keyPart} ${valuePart} />`);
 }
 function renderOpenGraph(tags, headData) {
   eachOpenGraph(headData, (property, value) => {
-    if (value) {
-      tags.push(`<meta property="${property}" content="${escape(value)}" />`);
+    if (value != null) {
+      renderMetaTag(tags, {
+        property,
+        content: value,
+      });
     }
   });
 }
@@ -22,8 +43,14 @@ export default {
     }
 
     const managedTags = [];
-    renderMetaTag(managedTags, 'description', headData.description);
-    renderMetaTag(managedTags, 'viewport', getViewport(headData));
+    renderMetaTag(managedTags, {
+      name: 'description',
+      content: headData.description,
+    });
+    renderMetaTag(managedTags, {
+      name: 'viewport',
+      content: getViewport(headData),
+    });
     renderOpenGraph(managedTags, headData);
 
     this.$ssrContext.headData = {
