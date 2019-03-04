@@ -4,6 +4,7 @@ description: プラグインの説明
 og:
   title: og plugin title
   description: og desc of plugin
+  site-name: vuepress doc site
 master-page: master-page2
 ---
 <style scoped>
