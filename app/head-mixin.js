@@ -6,7 +6,7 @@ export function getHeadData(vm) {
 export function eachOpenGraph(headData, cb) {
   const fallback = {
     title: headData.title,
-    description: headData.description
+    description: headData.description,
   };
   const { title, type, url, description, siteName, locale, image, audio, video } =
     headData.og === false
