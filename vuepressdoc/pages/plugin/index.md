@@ -5,6 +5,7 @@ og:
   title: og plugin title
   description: og desc of plugin
   site-name: vuepress doc site
+  image: https://vuepressdoc/opengraph-image.jpg
 master-page: master-page2
 ---
 <style scoped>
