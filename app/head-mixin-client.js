@@ -1,4 +1,4 @@
-import { getHeadData, eachOpenGraph, getViewport } from './head-mixin';
+import { getHeadData, eachOpenGraph, getViewport, unmanagedMarker } from './head-mixin';
 
 function hydrateMetaTag({ name, property, content }) {
   let key = null;
@@ -47,6 +47,52 @@ function hydrateOpenGraph(headData) {
   });
 }
 
+function findUnmanagedRangeNode() {
+  const head = document.head;
+  let start = null;
+  let end = null;
+  for (let node = head.firstChild; node; node = node.nextSibling) {
+    if (node.nodeType !== Node.COMMENT_NODE) {
+      continue;
+    }
+    if (start == null && 0 <= node.nodeValue.indexOf(unmanagedMarker[0])) {
+      start = node;
+    } else if (end == null && 0 <= node.nodeValue.indexOf(unmanagedMarker[1])) {
+      end = node;
+      break;
+    }
+  }
+  return { start, end };
+}
+function removeUnmanagedTags({start, end}) {
+  if (start == null) {
+    return;
+  }
+  const head = document.head;
+  while (start.nextSibling != end) {
+    head.removeChild(start.nextSibling);
+  }
+}
+function appendUnmanagedTags({start, end}, tags) {
+  if (tags == null || tags.length === 0) {
+    return;
+  }
+
+  const head = document.head;
+  const tmp = document.createElement('meta');
+  if (start == null) {
+    head.appendChild(tmp);
+    tags = `<!-- ${unmanagedMarker[0]} -->${tags}`;
+  } else {
+    head.insertBefore(tmp, start.nextSibling);
+  }
+  if (end == null) {
+    tags = `${tags}<!-- ${unmanagedMarker[1]} -->`;
+  }
+  tmp.insertAdjacentHTML('afterend', tags);
+  head.removeChild(tmp);
+}
+
 export default {
   mounted() {
     const headData = getHeadData(this);
@@ -54,9 +100,15 @@ export default {
       return;
     }
 
+    const unmanagedRange = findUnmanagedRangeNode();
+    removeUnmanagedTags(unmanagedRange);
+
     document.title = headData.title || '';
     hydrateMetaTag('description', headData.description);
     hydrateMetaTag('viewport', getViewport(headData));
     hydrateOpenGraph(headData);
+
+    const appendHeadTags = headData.appendHeadTags;
+    appendUnmanagedTags(unmanagedRange, appendHeadTags);
   },
 };

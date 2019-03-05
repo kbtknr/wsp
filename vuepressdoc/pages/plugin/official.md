@@ -1,5 +1,8 @@
 ---
 sidebar: auto
+append-head-tags: |
+  <meta name="foo" content="bar">
+  <meta name="foo" content="baz">
 ---
 
 # Official Plugins

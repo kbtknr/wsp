@@ -7,6 +7,9 @@ og:
   site-name: vuepress doc site
   image: https://vuepressdoc/opengraph-image.jpg
 master-page: master-page2
+append-head-tags: |
+  <meta name="foo" content="bar">
+  <meta name="foo" content="baz">
 ---
 <style scoped>
   .strong {

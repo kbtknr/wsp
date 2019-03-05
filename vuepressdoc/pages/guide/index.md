@@ -1,5 +1,8 @@
 ---
 og: false
+append-head-tags: |
+  <meta name="foo" content="bar">
+  <meta name="foo" content="baz">
 ---
 <style scoped>
   .strong {
