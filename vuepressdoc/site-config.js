@@ -8,7 +8,7 @@ module.exports = {
     components: 'components',
     masterPages: 'master-pages',
     pages: 'pages',
-    notFound: 'not-found'
+    notFound: 'not-found.md'
   },
 
   build: {

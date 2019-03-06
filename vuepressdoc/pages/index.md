@@ -3,6 +3,7 @@
 さんぷるさいと
 
 * [Guide](guide/)
-* [Pluin](plugin/)
+* [Plugin](plugin/)
 * [Page1](page1.vue)
 * [Page2](page2.vue)
+* [NotFound](not-found.md)
