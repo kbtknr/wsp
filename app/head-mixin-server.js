@@ -69,7 +69,7 @@ export default {
     this.$ssrContext.headData = {
       title: headData.title,
       managedTags: managedTags.join(''),
-      appendHeadTags
+      appendHeadTags,
     };
   },
 };

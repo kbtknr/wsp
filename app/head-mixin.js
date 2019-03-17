@@ -1,4 +1,4 @@
-export const unmanagedMarker = [ "begin unmanaged", "end unmanaged" ];
+export const unmanagedMarker = ['begin unmanaged', 'end unmanaged'];
 
 export function getHeadData(vm) {
   const headData = vm.$options.headData;

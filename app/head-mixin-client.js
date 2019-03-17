@@ -64,7 +64,7 @@ function findUnmanagedRangeNode() {
   }
   return { start, end };
 }
-function removeUnmanagedTags({start, end}) {
+function removeUnmanagedTags({ start, end }) {
   if (start == null) {
     return;
   }
@@ -73,7 +73,7 @@ function removeUnmanagedTags({start, end}) {
     head.removeChild(start.nextSibling);
   }
 }
-function appendUnmanagedTags({start, end}, tags) {
+function appendUnmanagedTags({ start, end }, tags) {
   if (tags == null || tags.length === 0) {
     return;
   }
