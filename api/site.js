@@ -2,9 +2,13 @@ const path = require('path');
 const fs = require('fs-extra');
 const EventEmitter = require('events');
 
+const webpack = require('webpack');
 const WebpackConfig = require('webpack-chain');
+const middleware = require('webpack-dev-middleware');
+const express = require('express');
 const { VueLoaderPlugin } = require('vue-loader');
 const CSSExtractPlugin = require('mini-css-extract-plugin');
+const { createBundleRenderer } = require('vue-server-renderer');
 const VueSSRServerPlugin = require('vue-server-renderer/server-plugin');
 
 const SiteConfig = require('./site-config.js');
@@ -20,6 +24,18 @@ const pagesAlias = '@pages';
 const headMixinAlias = '@head-mixin';
 const appDir = path.join(__dirname, '../app');
 const libDir = path.join(__dirname, '../lib');
+
+function compile(configs) {
+  return new Promise((resolve, reject) => {
+    webpack(configs, (err, stats) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(stats);
+      }
+    });
+  });
+}
 class Site extends EventEmitter {
   constructor(siteConfigPath) {
     super();
@@ -478,6 +494,105 @@ class Site extends EventEmitter {
     return config;
   }
 
+  async build(outDir, isDebug = false) {
+    const clientConfig = this.createClientConfig(true, isDebug, outDir);
+    const serverConfig = this.createServerConfig(true, isDebug, outDir);
+    const stats = await compile([clientConfig.toConfig(), serverConfig.toConfig()]);
+
+    if (stats.hasErrors()) {
+      this.emit('webpack-errors', stats);
+      throw new Error('Failed to compile with errors.')
+    } else if (stats.hasWarnings()) {
+      this.emit('webpack-warnings', stats);
+    }
+
+    const manifestDir = path.join(outDir, '_manifest');
+    const serverBundle = require(path.join(manifestDir, 'server.json'));
+    const clientManifest = require(path.join(manifestDir, 'client.json'));
+    await fs.remove(manifestDir);
+
+    const template = await fs.readFile(path.join(libDir, './index.template.html'), {
+      encoding: 'utf8',
+    });
+    const renderer = createBundleRenderer(serverBundle, {
+      clientManifest,
+      runInNewContext: false,
+      inject: false,
+      shouldPrefetch: () => true,
+      template,
+    });
+    await this.renderPages(renderer, '/', outDir);
+  }
+  async renderPages(renderer, urlDir, outDir) {
+    const nodes = await this.listPages(urlDir);
+    await fs.ensureDir(outDir);
+
+    for (let i = 0; i < nodes.length; i++) {
+      const node = nodes[i];
+      const name = node.name;
+
+      if (node.isDirectory) {
+        await this.renderPages(renderer, path.join(urlDir, name), path.join(outDir, name));
+      } else {
+        const extname = path.extname(name);
+        const basename = path.basename(name, extname);
+        const outFile = path.join(outDir, `${basename}.html`);
+        const pathname = path.join(urlDir, basename);
+        try {
+          await this.renderPage(renderer, pathname, outFile);
+        } catch (e) {
+          this.emit('rendering-error', pathname, e);
+          continue;
+        }
+        this.emit('rendering-page', pathname, outFile);
+      }
+    }
+  }
+  async renderPage(renderer, pathname, outFile) {
+    const context = {
+      url: pathname,
+      headData: {},
+    };
+    const html = await renderer.renderToString(context);
+    await fs.writeFile(outFile, html);
+  }
+
+  serve(app, isDebug = false) {
+    const outDir = path.resolve(this.tmpDir, 'dev-dist');
+    const clientConfig = this.createClientConfig(false, isDebug, outDir);
+    clientConfig.plugin('html').use(require('html-webpack-plugin'), [
+      {
+        filename: 'index.html',
+        template: path.join(libDir, 'index.dev.html'),
+      },
+    ]);
+
+    const config = clientConfig.toConfig();
+    const compiler = webpack(config);
+    app.use(
+      middleware(compiler, {
+        // webpack-dev-middleware options
+        // publicPath: path.resolve(__dirname, 'dist'),
+        publicPath: config.output.publicPath,
+        logLevel: 'debug',
+        index: 'index.html',
+      })
+    );
+    app.use('*', function(req, res) {
+      const filename = path.join(compiler.outputPath, 'index.html');
+      compiler.outputFileSystem.readFile(filename, function(err, result) {
+        if (err) {
+          res.status(500);
+          res.end();
+          return;
+        }
+        res.set('content-type', 'text/html');
+        res.send(result);
+        res.end();
+      });
+    });
+  }
+
 
 
   watch() {
@@ -492,19 +607,6 @@ class Site extends EventEmitter {
   unwatch() {
     this.config.removeAllListeners();
     this.config.unwatch();
-  }
-
-
-
-
-
-  ensureTempDirectory() {
-    this.tmpDir = path.join(this.homeDir, '.tmp');
-  }
-  async emptyTempDirectory() {
-    if (this.tmpDir) {
-      await fs.emptyDir(this.tmpDir);
-    }
   }
 }
 module.exports = Site;
