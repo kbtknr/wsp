@@ -10,12 +10,10 @@ program
   .command('start <site-config>')
   .description('start site')
   .option('-D, --debug', 'Debug mode')
-  .option('-t, --temp <value>', 'Temporary directory')
   .action(function(siteConfig, options) {
     const { debug, temp } = options;
     start({
       siteConfigPath: siteConfig,
-      tmpDir: temp,
       isDebug: debug,
     }).catch(err => {
       if (err) {
