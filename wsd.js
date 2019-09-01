@@ -25,15 +25,16 @@ program
 program
   .command('build <site-config>')
   .description('build site')
+  .option('-D, --debug', 'Debug mode')
   .option('-d, --destination <value>', 'Destination directory')
   .option('-t, --temp <value>', 'Temporary directory')
   .action(function(siteConfig, options) {
-    const { destination, temp } = options;
+    const { destination, temp, debug } = options;
     build({
       siteConfigPath: siteConfig,
       tmpDir: temp,
       outDir: destination,
-      isDebug: true,
+      isDebug: debug,
     }).catch(err => {
       if (err) {
         console.error(err);
