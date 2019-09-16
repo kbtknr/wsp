@@ -52,7 +52,7 @@ program
     dev({
       siteConfigPath: siteConfig,
       servePort: options.servePort || 8080,
-      webapiPort: options.webapiPort || 3000
+      webapiPort: options.webapiPort || 3000,
     }).catch(err => {
       if (err) {
         console.error(err);
