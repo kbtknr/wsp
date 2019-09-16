@@ -5,7 +5,7 @@
     "wsd": "wsd.js"
   },
   "scripts": {
-    "fmt": "prettier --config 'prettier.config.js' --write {{app,lib}/**/*.{js,vue,html},wsd.js}",
+    "fmt": "prettier --config 'prettier.config.js' --write '{{app,lib}/**/*.{js,vue,html},wsd.js}'",
     "test": "jest"
   },
   "author": "takasmiley <takasmiley@live.jp>",
