@@ -3,6 +3,7 @@
 const program = require('commander');
 const start = require('./lib/start');
 const build = require('./lib/build');
+const dev = require('./lib/dev');
 
 program.version('1.0.0');
 
@@ -35,6 +36,23 @@ program
       tmpDir: temp,
       outDir: destination,
       isDebug: debug,
+    }).catch(err => {
+      if (err) {
+        console.error(err);
+      }
+      process.exit(1);
+    });
+  });
+program
+  .command('webapi <site-config>')
+  .description('development server')
+  .option('-s, --serve-port <value>', 'serve port')
+  .option('-a, --webapi-port <value>', 'api port')
+  .action(function(siteConfig, options) {
+    dev({
+      siteConfigPath: siteConfig,
+      servePort: options.servePort || 8080,
+      webapiPort: options.webapiPort || 3000,
     }).catch(err => {
       if (err) {
         console.error(err);
