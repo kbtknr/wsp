@@ -1,6 +1,11 @@
 {
   "name": "wsp",
+  "description": "WebSitePublisher is software for creating beautiful websites and blogs using Vue. Inspired by vuepress.",
   "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/kbtknr/wsp.git"
+  },
   "bin": {
     "wsp": "wsp.js"
   },
