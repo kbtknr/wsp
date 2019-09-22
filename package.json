@@ -1,14 +1,14 @@
 {
-  "name": "wsd",
+  "name": "wsp",
   "version": "1.0.0",
   "bin": {
-    "wsd": "wsd.js"
+    "wsp": "wsp.js"
   },
   "scripts": {
-    "fmt": "prettier --config 'prettier.config.js' --write '{{app,lib}/**/*.{js,vue,html},wsd.js}'",
+    "fmt": "prettier --config 'prettier.config.js' --write '{{app,lib}/**/*.{js,vue,html},wsp.js}'",
     "test": "jest"
   },
-  "author": "takasmiley <takasmiley@live.jp>",
+  "author": "kbtknr <kbtknr@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "@babel/core": "^7.2.2",
