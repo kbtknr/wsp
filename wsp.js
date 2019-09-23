@@ -5,7 +5,7 @@ const start = require('./lib/start');
 const build = require('./lib/build');
 const dev = require('./lib/dev');
 
-program.version('1.0.0');
+program.version(require(__dirname + '/package.json').version);
 
 program
   .command('start <site-config>')
