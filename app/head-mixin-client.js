@@ -104,8 +104,14 @@ export default {
     removeUnmanagedTags(unmanagedRange);
 
     document.title = headData.title || '';
-    hydrateMetaTag('description', headData.description);
-    hydrateMetaTag('viewport', getViewport(headData));
+    hydrateMetaTag({
+      property: 'description',
+      content: headData.description
+    });
+    hydrateMetaTag({
+      property: 'viewport',
+      content: getViewport(headData)
+    });
     hydrateOpenGraph(headData);
 
     const appendHeadTags = headData.appendHeadTags;
