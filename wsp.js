@@ -1,11 +1,29 @@
 #!/usr/bin/env node
 
 const program = require('commander');
+const init = require('./lib/init');
 const start = require('./lib/start');
 const build = require('./lib/build');
 const dev = require('./lib/dev');
 
-program.version('1.0.0');
+program.version(require(__dirname + '/package.json').version);
+
+program
+  .command('init [directory]')
+  .description('init site')
+  .option('-n, --filename <value>', 'configuration filename of directory')
+  .action(function(directory, options) {
+    const { filename } = options;
+    init({
+      directory,
+      filename,
+    }).catch(err => {
+      if (err) {
+        console.error(err);
+      }
+      process.exit(1);
+    });
+  });
 
 program
   .command('start <site-config>')
