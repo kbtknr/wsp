@@ -106,11 +106,11 @@ export default {
     document.title = headData.title || '';
     hydrateMetaTag({
       property: 'description',
-      content: headData.description
+      content: headData.description,
     });
     hydrateMetaTag({
       property: 'viewport',
-      content: getViewport(headData)
+      content: getViewport(headData),
     });
     hydrateOpenGraph(headData);
 
