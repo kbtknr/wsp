@@ -1,4 +1,4 @@
-import { getHeadData, eachOpenGraph, getViewport, unmanagedMarker } from './head-mixin';
+import { getHeadData, eachOpenGraph, unmanagedMarker } from './head-mixin';
 import escape from 'escape-html';
 
 function renderMetaTag(tags, { name, httpEquiv, property, content }) {
@@ -57,10 +57,6 @@ export default {
     renderMetaTag(managedTags, {
       name: 'description',
       content: headData.description,
-    });
-    renderMetaTag(managedTags, {
-      name: 'viewport',
-      content: getViewport(headData),
     });
     renderOpenGraph(managedTags, headData);
 

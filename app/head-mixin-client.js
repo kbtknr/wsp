@@ -1,4 +1,4 @@
-import { getHeadData, eachOpenGraph, getViewport, unmanagedMarker } from './head-mixin';
+import { getHeadData, eachOpenGraph, unmanagedMarker } from './head-mixin';
 
 function hydrateMetaTag({ name, property, content }) {
   let key = null;
@@ -107,10 +107,6 @@ export default {
     hydrateMetaTag({
       property: 'description',
       content: headData.description,
-    });
-    hydrateMetaTag({
-      property: 'viewport',
-      content: getViewport(headData),
     });
     hydrateOpenGraph(headData);
 
