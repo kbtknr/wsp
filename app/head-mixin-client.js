@@ -38,6 +38,25 @@ function hydrateMetaTag({ name, property, content }) {
     document.head.appendChild(m);
   }
 }
+function hydrateCanonical(headData) {
+  const { canonical } = headData;
+
+  const tags = document.head.querySelectorAll(`link[rel="canonical"]`);
+  if (0 < tags.length) {
+    for (let i = 0; i < tags.length; i++) {
+      if (i == 0 && canonical != null) {
+        tags[i].setAttribute('href', canonical);
+      } else {
+        tags[i].parentNode.removeChild(tags[i]);
+      }
+    }
+  } else if (canonical != null) {
+    const tag = document.createElement('link');
+    tag.setAttribute('rel', 'canonical');
+    tag.setAttribute('href', canonical);
+    document.head.appendChild(tag);
+  }
+}
 function hydrateOpenGraph(headData) {
   eachOpenGraph(headData, (property, value) => {
     hydrateMetaTag({
@@ -108,6 +127,7 @@ export default {
       property: 'description',
       content: headData.description,
     });
+    hydrateCanonical(headData);
     hydrateOpenGraph(headData);
 
     const appendHeadTags = headData.appendHeadTags;

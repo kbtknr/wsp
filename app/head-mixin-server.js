@@ -27,6 +27,12 @@ function renderMetaTag(tags, { name, httpEquiv, property, content }) {
 
   tags.push(`<meta ${keyPart} ${valuePart} />`);
 }
+function renderCanonical(tags, headData) {
+  const { canonical } = headData;
+  if (canonical) {
+    tags.push(`<link rel="canonical" href="${escape(canonical)}">`);
+  }
+}
 function renderOpenGraph(tags, headData) {
   eachOpenGraph(headData, (property, value) => {
     if (value != null) {
@@ -58,6 +64,7 @@ export default {
       name: 'description',
       content: headData.description,
     });
+    renderCanonical(managedTags, headData);
     renderOpenGraph(managedTags, headData);
 
     const appendHeadTags = renderUnmanagedTags(headData.appendHeadTags);
