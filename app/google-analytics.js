@@ -1,4 +1,4 @@
-module.exports = (gaConfig, router) => {
+export default (gaConfig, router) => {
   const trackingID = gaConfig.trackingID;
   if (!trackingID) {
     return;
